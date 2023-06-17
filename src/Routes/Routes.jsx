@@ -15,9 +15,6 @@ const router = createBrowserRouter([
             }, {
                 path: 'interview',
                 element: <Interview />
-            }, {
-                path: "chart",
-                element: <Chart />
             }
         ]
     }
