@@ -33,8 +33,6 @@ const Interview = () => {
         <><div className="interveiw">
         </div>
             {compareData.length === 0 ? <div className="inputform" >
-
-
                 <div>
                     <label htmlFor="id" style={style.sub}>ID:</label>
                     <input type="number" id="id" onChange={handleLoadData} name="id" />

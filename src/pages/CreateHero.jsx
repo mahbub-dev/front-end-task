@@ -30,6 +30,7 @@ const CreateHero = () => {
             localStorage.setItem('heroData', data)
             setInputData(initialInput)
         }
+        e.target.reset()
         toast.success('One Hero is Created')
     }
     return (
