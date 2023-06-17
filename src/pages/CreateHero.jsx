@@ -1,13 +1,19 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
+import Input from "../Components/Input"
 
 const CreateHero = () => {
-    const [inputData, setInputData] = useState({})
+    const initialInput = { id: 0, strength: 0, invisibility: 0, healing: 0, shape_shift: 0, telekinesis: 0 }
+    const [inputData, setInputData] = useState(initialInput)
     const handleChange = (e) => {
         setInputData(p => ({ ...p, [e.target.name]: e.target.value }))
     }
     const handleCreate = (e) => {
         e.preventDefault()
+        if (Object.values(inputData).some(i => i === 0)) {
+            toast.warn('Please fill the required fields')
+            return
+        }
         const preData = localStorage.getItem('heroData')
         if (preData) {
             const parsePreData = JSON.parse(preData)
@@ -18,41 +24,58 @@ const CreateHero = () => {
             const newData = [...parsePreData, inputData]
             const data = JSON.stringify(newData)
             localStorage.setItem('heroData', data)
-            e.target.reset()
+            initialInput(initialInput)
         } else {
             const data = JSON.stringify([inputData])
             localStorage.setItem('heroData', data)
-            e.target.reset()
+            setInputData(initialInput)
         }
         toast.success('One Hero is Created')
     }
     return (
         <div className="cratehero">
             <form className="inputform" onSubmit={handleCreate} >
-                <div>
-                    <label htmlFor="id" style={{ marginRight: '.5rem' }}>ID:</label>
-                    <input onChange={handleChange} type="number" id="id" name="id" />
-                </div>
-                <div>
-                    <label htmlFor="strength" style={{ marginRight: '.5rem' }}>Strength:</label>
-                    <input type="range" onChange={handleChange} id="strength" name="strength" />
-                </div>
-                <div>
-                    <label htmlFor="invisibility" style={{ marginRight: '.5rem' }}>Invisibility:</label>
-                    <input type="range" id="invisibility" onChange={handleChange} name="invisibility" />
-                </div>
-                <div>
-                    <label htmlFor="healing" style={{ marginRight: '.5rem' }}>Healing:</label>
-                    <input type="range" id="healing" name="healing" onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="shape_shift" style={{ marginRight: '.5rem' }}>Shape Shift:</label>
-                    <input type="range" id="shape_shift" name="shape_shift" onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="telekinesis" style={{ marginRight: '.5rem' }}>Telekinesis:</label>
-                    <input type="range" id="telekinesis" name="telekinesis" onChange={handleChange} />
-                </div>
+                <Input
+                    handleChange={handleChange}
+                    label={'ID:'}
+                    name={'id'}
+                    type={'number'}
+                />
+                <Input
+                    handleChange={handleChange}
+                    label={'Strength:'}
+                    name={'strength'}
+                    type={'range'}
+                    value={inputData.strength}
+                />
+                <Input
+                    handleChange={handleChange}
+                    label={'Invisibility:'}
+                    name={'invisibility'}
+                    type={'range'}
+                    value={inputData.invisibility}
+                />
+                <Input
+                    handleChange={handleChange}
+                    label={'Healing:'}
+                    name={'healing'}
+                    type={'range'}
+                    value={inputData.healing}
+                />
+                <Input
+                    handleChange={handleChange}
+                    label={'Shape Shift:'}
+                    name={'shape_shift'}
+                    type={'range'}
+                    value={inputData.shape_shift}
+                />
+                <Input
+                    handleChange={handleChange}
+                    label={'Telekinesis:'}
+                    name={'telekinesis'}
+                    type={'range'}
+                    value={inputData.telekinesis}
+                />
                 <button type="submit">Create Hero</button>
             </form>
         </div>
